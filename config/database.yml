@@ -8,11 +8,13 @@ default: &default
   adapter: mysql2
   pool: 5
   timeout: 5000
-  username: <%= Rails.application.secrets.quarto_username %>
-  password: <%= Rails.application.secrets.quarto_password %>
+  host: localhost
+  username: <%= Rails.application.secrets.db_username %>
+  password: <%= Rails.application.secrets.db_password %>
 
 development:
   <<: *default
+  host: localhost
   database: capstone
 
 test:

@@ -26,6 +26,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'pundit'
 gem 'devise_token_auth'
 gem 'omniauth', '~> 1.0'
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
 gem 'rack-cors', :require => 'rack/cors'
 

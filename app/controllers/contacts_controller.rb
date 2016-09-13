@@ -1,5 +1,5 @@
 class ContactsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   respond_to :json
   def index
     @contacts = {name: 'Ola', email: 'sakintoye@gmail.com'}

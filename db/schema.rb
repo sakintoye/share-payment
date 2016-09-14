@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914194610) do
+ActiveRecord::Schema.define(version: 20160914200932) do
 
   create_table "contacts", force: :cascade do |t|
     t.integer  "owner_id",   limit: 4
@@ -22,15 +22,25 @@ ActiveRecord::Schema.define(version: 20160914194610) do
 
   add_index "contacts", ["contact_id"], name: "index_contacts_on_contact_id", using: :btree
 
+  create_table "invitations", force: :cascade do |t|
+    t.string   "invite_mode",  limit: 255
+    t.string   "sender_id",    limit: 255
+    t.string   "contact_info", limit: 255
+    t.integer  "status",       limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "payments", force: :cascade do |t|
     t.integer  "recipient_id",   limit: 4
     t.integer  "sender_id",      limit: 4
+    t.decimal  "amount",                     precision: 15, scale: 2
     t.string   "reason",         limit: 255
     t.integer  "status",         limit: 4
     t.datetime "date_sent"
     t.datetime "date_withdrawn"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
   end
 
   add_index "payments", ["recipient_id"], name: "index_payments_on_recipient_id", using: :btree

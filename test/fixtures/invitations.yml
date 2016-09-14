@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  invite_mode: MyString
+  sender_id: MyString
+  contact_info: MyString
+  status: 1
+
+two:
+  invite_mode: MyString
+  sender_id: MyString
+  contact_info: MyString
+  status: 1

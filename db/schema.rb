@@ -11,14 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160913234415) do
+ActiveRecord::Schema.define(version: 20160914194610) do
 
   create_table "contacts", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
     t.integer  "owner_id",   limit: 4
+    t.integer  "contact_id", limit: 4
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
+
+  add_index "contacts", ["contact_id"], name: "index_contacts_on_contact_id", using: :btree
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "recipient_id",   limit: 4
+    t.integer  "sender_id",      limit: 4
+    t.string   "reason",         limit: 255
+    t.integer  "status",         limit: 4
+    t.datetime "date_sent"
+    t.datetime "date_withdrawn"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "payments", ["recipient_id"], name: "index_payments_on_recipient_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               limit: 255,   default: "email", null: false
@@ -49,4 +64,6 @@ ActiveRecord::Schema.define(version: 20160913234415) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "contacts", "users", column: "contact_id"
+  add_foreign_key "payments", "users", column: "recipient_id"
 end

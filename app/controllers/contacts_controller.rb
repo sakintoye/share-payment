@@ -5,10 +5,10 @@ class ContactsController < ApplicationController
     # @contacts = {name: 'Ola', email: 'sakintoye@gmail.com'}
     respond_to do |format|
       # Contact.create({owner_id: 1, contact_id: 2})
-      @contacts = policy_scope(Contact.joins(:user))
-      @contacts.each do |contact|
-        print "Testing - #{contact.user.name}\n\n"
-      end
+      @contacts = policy_scope(Contact)
+      # @contacts.each do |contact|
+      #   print "Testing - #{contact.user.name}\n\n"
+      # end
       format.json { render json: @contacts }
     end
   end

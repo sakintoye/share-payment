@@ -2,20 +2,27 @@ class ContactsController < ApplicationController
   before_action :authenticate_user!
   respond_to :json
   def index
-    # @contacts = {name: 'Ola', email: 'sakintoye@gmail.com'}
     respond_to do |format|
-      # Contact.create({owner_id: 1, contact_id: 2})
-      @contacts = policy_scope(Contact)
-      # @contacts.each do |contact|
-      #   print "Testing - #{contact.user.name}\n\n"
-      # end
+      @contacts = policy_scope(Contact).joins(:contact).select('users.id, users.name, users.email')
       format.json { render json: @contacts }
     end
   end
 
   def create
+    respond_to do |format|
+      contact = Contact.new(contact_params)
+      format.json { render json: contact }
+    end
   end
 
   def destroy
+  end
+
+  private
+
+  def contact_params
+    params.require(:contact).permit(
+      :contact_id
+    )
   end
 end

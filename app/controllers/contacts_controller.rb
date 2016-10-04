@@ -3,15 +3,28 @@ class ContactsController < ApplicationController
   respond_to :json
   def index
     respond_to do |format|
-      @contacts = policy_scope(Contact).joins(:contact).select('users.id, users.name, users.email')
-      format.json { render json: @contacts }
+      contacts = policy_scope(Contact).joins(:contact).select('users.id, users.name, users.email')
+      format.json { 
+        render json: 
+        {
+          status: 0,
+          message: "Returned #{contacts.size} contacts",
+          data: contacts
+        }
+      }
     end
   end
 
   def create
     respond_to do |format|
       contact = Contact.new(contact_params)
-      format.json { render json: contact }
+      format.json { render json: 
+        {
+          status: 0,
+          message: "Contact was created successfully",
+          data: contact 
+        }
+      }
     end
   end
 

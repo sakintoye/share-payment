@@ -31,5 +31,15 @@ module Capstone
           :methods => [:get, :post, :options, :delete, :put]
       end
     end
+
+    config.action_mailer.smtp_settings = {
+      :address        => 'smtp.sendgrid.net',
+      :port           => '587',
+      :authentication => :plain,
+      :user_name      => Rails.application.secrets.smtp_username,
+      :password       => Rails.application.secrets.smtp_password,
+      :domain         => 'fractel.net',
+      :enable_starttls_auto => true
+    }
   end
 end

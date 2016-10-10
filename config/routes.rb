@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
 
 
+  get 'members/:id/block_user' => 'members#block_user', as: :block_user
+
   get 'payments/sent'
-  put 'payments/withdraw'
-  put 'payments/cancel';
+  put 'payments/:id/withdraw' => 'payments#withdraw', as: :withdraw
+  put 'payments/cancel'
 
   mount_devise_token_auth_for 'User', at: 'auth'
   # The priority is based upon order of creation: first created -> highest priority.
@@ -24,6 +26,7 @@ Rails.application.routes.draw do
   resources :contacts
   resources :invitations
   resources :payments
+  resources :members
 
   # Example resource route with options:
   #   resources :products do

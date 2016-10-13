@@ -8,19 +8,19 @@ class MembersController < ApplicationController
       format.json { render json:
         {
           status: 0,
-          members: members
+          data: members
         }
       }
     end
   end
 
   def show
-    members = User.find_by(id: params[:id]) or raise ActionController::RoutingError.new('Not Found')
+    member = User.find_by(id: params[:id]) or raise ActionController::RoutingError.new('Not Found')
     respond_to do |format|
       format.json { render json:
         {
           status: 0,
-          members: members
+          data: member
         }
       }
     end

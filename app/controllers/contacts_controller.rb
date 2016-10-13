@@ -18,6 +18,8 @@ class ContactsController < ApplicationController
   def create
     respond_to do |format|
       contact = Contact.new(contact_params)
+      contact.owner_id = current_user.id
+      contact.save
       format.json { render json: 
         {
           status: 0,

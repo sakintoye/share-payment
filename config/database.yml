@@ -23,4 +23,5 @@ test:
 
 production:
   <<: *default
-  database: <%= Rails.application.secrets.quarto_database %>
+  host: localhost
+  database: capstone

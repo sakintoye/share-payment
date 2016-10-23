@@ -30,6 +30,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

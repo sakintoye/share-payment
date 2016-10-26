@@ -100,4 +100,8 @@ class MerchantsController < ApplicationController
 
 	  render json: "Charge successfully created"
 	end
+
+	def webhook
+		render json: "Webhook is working :)"
+	end
 end

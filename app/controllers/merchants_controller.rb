@@ -35,7 +35,7 @@ class MerchantsController < ApplicationController
 		 begin
 	    	fullname = params[:fullname]
 	    	email = params[:email]
-	      @customer = Stripe::Customer.create(:description: fullname, email: email)
+	      @customer = Stripe::Customer.create(description: fullname, email: email)
 	      render json: @customer, status: 200
 	    rescue Stripe::InvalidRequestError
 	    end

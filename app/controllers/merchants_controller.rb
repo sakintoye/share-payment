@@ -1,5 +1,6 @@
 class MerchantsController < ApplicationController
 	require "stripe"
+	skip_before_filter  :verify_authenticity_token
 	respond_to :json
 
 	Stripe.api_key = Rails.application.secrets.stripe_key

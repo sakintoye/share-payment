@@ -19,9 +19,9 @@ class MerchantsController < ApplicationController
 	      :source => source,
 	      :description => "Example Charge"
 	    )
-		render json: "Charge successfully created", status: 200
+		render json: "Charge successfully created".to_json, status: 200
 		rescue Stripe::StripeError => e
-		render json: "Error creating charge: #{e.message}", status: 402
+		render json: "Error creating charge: #{e.message}".to_json, status: 402
 		return
 	  end
 	end
@@ -29,6 +29,17 @@ class MerchantsController < ApplicationController
 	def customer  #get
 		authenticate!
 		render json: @customer 
+	end
+
+	def create_customer
+		 begin
+	    	fullname = params[:fullname]
+	    	email = params[:email]
+	      @customer = Stripe::Customer.create(:description: fullname, email: email)
+	      render json: @customer, status: 200
+	    rescue Stripe::InvalidRequestError
+	    end
+	    # session[:customer_id] = @customer.id
 	end
 
 	def customer_sources #post
@@ -39,10 +50,10 @@ class MerchantsController < ApplicationController
 	  begin
 	    @customer.sources.create({:source => source})
 	  rescue Stripe::StripeError => e
-	    render json: "Error adding token to customer: #{e.message}", status: 402
+	    render json: "Error adding token to customer: #{e.message}".to_json, status: 402
 	    return
 	  end
-	  render json: "Successfully added source."
+	  render json: "Successfully added source.".to_json
 	end
 
 	def customer_default_source
@@ -54,11 +65,11 @@ class MerchantsController < ApplicationController
 	    @customer.default_source = source
 	    @customer.save
 	  rescue Stripe::StripeError => e
-	    render json: "Error selecting default source: #{e.message}", status: 402
+	    render json: "Error selecting default source: #{e.message}".to_json, status: 402
 	    return
 	  end
 
-	  render json: "Successfully selected default source."
+	  render json: "Successfully selected default source.".to_json
 	end
 
 	def authenticate!
@@ -72,11 +83,13 @@ class MerchantsController < ApplicationController
 	    rescue Stripe::InvalidRequestError
 	    end
 	  else
-	    begin
-	      @customer = Stripe::Customer.create(:description => "Share Payment")
-	    rescue Stripe::InvalidRequestError
-	    end
-	    session[:customer_id] = @customer.id
+	    # begin
+	    # 	fullname = params[:fullname]
+	    # 	email = params[:email]
+	    #   @customer = Stripe::Customer.create(:description: fullname, email: email)
+	    # rescue Stripe::InvalidRequestError
+	    # end
+	    # session[:customer_id] = @customer.id
 	  end
 	  @customer
 	end
@@ -96,7 +109,7 @@ class MerchantsController < ApplicationController
 	    )
 	  render json: charge, status: 200
 	  rescue Stripe::StripeError => e
-	    render json: "Error creating charge: #{e.message}", status: 402
+	    render json: "Error creating charge: #{e.message}".to_json, status: 402
 	    return 
 	  end
 

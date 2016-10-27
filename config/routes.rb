@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # Example of regular route:
   get 'me' => 'users#me'
   get 'stripe/customer/:customer_id' => 'merchants#customer', as: :stripe_customer
+  post 'stripe/customer' => 'merchants#create_customer', as: :create_customer
   post 'stripe/charge' => 'merchants#charge', as: :charge
   post 'stripe/customer/sources' => 'merchants#customer_sources', as: :customer_sources
   post 'stripe/customer/default_source' => 'merchants#customer_default_source', as: :customer_default_source

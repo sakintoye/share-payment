@@ -94,7 +94,7 @@ class MerchantsController < ApplicationController
 	      :card => token,
 	      :description => "Example Charge"
 	    )
-	  render json: "{Charge successfully created}", status: 200
+	  render json: charge, status: 200
 	  rescue Stripe::StripeError => e
 	    render json: "Error creating charge: #{e.message}", status: 402
 	    return 

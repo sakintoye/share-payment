@@ -22,7 +22,8 @@ Rails.application.routes.draw do
   post 'stripe/customer/default_source' => 'merchants#customer_default_source', as: :customer_default_source
   post 'stripe/charge_card' => 'merchants#charge_card', as: :charge_card
 
-  get 'stripe/webhook' => 'merchants#webhook', as: :stripe_webhook
+  post 'stripe/webhook' => 'merchants#webhook', as: :stripe_webhook
+  get 'stripe/webhook' => 'merchants#webhook', as: :get_stripe_webhook
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

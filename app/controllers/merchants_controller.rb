@@ -18,11 +18,11 @@ class MerchantsController < ApplicationController
 	      :source => source,
 	      :description => "Example Charge"
 	    )
+		render json: "Charge successfully created", status: 200
 		rescue Stripe::StripeError => e
 		render json: "Error creating charge: #{e.message}", status: 402
 		return
 	  end
-	  render json: "Charge successfully created"
 	end
 
 	def customer  #get
@@ -98,10 +98,10 @@ class MerchantsController < ApplicationController
 	    return 
 	  end
 
-	  render json: "Charge successfully created"
+	  render json: "Charge successfully created", status: 200
 	end
 
 	def webhook
-		render json: "Webhook is working :)"
+		render json: "Webhook is working :)", status: 200
 	end
 end

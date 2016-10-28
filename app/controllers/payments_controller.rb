@@ -5,7 +5,7 @@ class PaymentsController < ApplicationController
 
   def index
     respond_to do |format|
-    senders = policy_scope(Payment).joins(:sender).select("payments.id, users.id as recipient_id, users.name, payments.amount, payments.date_sent")
+    senders = policy_scope(Payment).joins(:sender).select("payments.id, users.id as sender_id, payments.recipient_id, users.name, payments.amount, payments.reason, payments.date_sent, payments.status")
       format.json{ render json:
         {
           code: 0,
@@ -17,7 +17,7 @@ class PaymentsController < ApplicationController
   end
 
   def sent
-    recipients = policy_scope(Sender).joins(:recipient).select("payments.id, users.id as recipient_id, users.name, payments.amount, payments.reason, payments.date_sent, payments.status")
+    recipients = policy_scope(Sender).joins(:recipient).select("payments.id, payments.sender_id, users.id as recipient_id, users.name, payments.amount, payments.reason, payments.date_sent, payments.status")
     respond_to do |format|
       format.json{ render json:
         {

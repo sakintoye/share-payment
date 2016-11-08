@@ -50,8 +50,8 @@ class MerchantsController < ApplicationController
 	  begin
 	    @customer.sources.create({:source => source})
 	    user = User.find_by(uid: uid)
-	    user.customer_id = @customer.id
-	    user.update
+	    # user.customer_id = @customer.id
+	    user.update_attributes(customer_id: @customer.id)
 	  rescue Stripe::StripeError => e
 	    render json: "Error adding token to customer: #{e.message}".to_json, status: 402
 	    return

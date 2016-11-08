@@ -35,8 +35,12 @@ class MerchantsController < ApplicationController
 		 begin
 	    	fullname = params[:fullname]
 	    	email = params[:email]
-	      @customer = Stripe::Customer.create(description: fullname, email: email)
-	      render json: @customer, status: 200
+	    	uid = params[:uid]
+			@customer = Stripe::Customer.create(description: fullname, email: email)
+			user = User.find_by(uid: uid)
+			# user.customer_id = @customer.id
+			user.update_attributes(customer_id: @customer.id)
+			render json: @customer, status: 200
 	    rescue Stripe::InvalidRequestError
 	    end
 	    # session[:customer_id] = @customer.id
@@ -45,13 +49,9 @@ class MerchantsController < ApplicationController
 	def customer_sources #post
 	  authenticate!
 	  source = params[:source]
-	  uid = params[:uid]
 	  # Adds the token to the customer's sources
 	  begin
 	    @customer.sources.create({:source => source})
-	    user = User.find_by(uid: uid)
-	    # user.customer_id = @customer.id
-	    user.update_attributes(customer_id: @customer.id)
 	  rescue Stripe::StripeError => e
 	    render json: "Error adding token to customer: #{e.message}".to_json, status: 402
 	    return

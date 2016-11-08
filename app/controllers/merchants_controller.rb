@@ -45,10 +45,13 @@ class MerchantsController < ApplicationController
 	def customer_sources #post
 	  authenticate!
 	  source = params[:source]
-
+	  uid = params[:uid]
 	  # Adds the token to the customer's sources
 	  begin
 	    @customer.sources.create({:source => source})
+	    user = User.find_by(uid: uid)
+	    user.customer_id = @customer.id
+	    user.update
 	  rescue Stripe::StripeError => e
 	    render json: "Error adding token to customer: #{e.message}".to_json, status: 402
 	    return

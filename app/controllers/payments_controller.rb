@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+  require "stripe"
   before_action :authenticate_user!
   before_action :set_payment, only: [:show, :update, :withdraw, :cancel]
   respond_to :json
@@ -30,30 +31,47 @@ class PaymentsController < ApplicationController
   end
 
   def create
+    Stripe.api_key = Rails.application.secrets.stripe_key
     respond_to do |format|
       payment = Payment.new(create_params)
       recipient = User.find_by(id: payment.recipient_id)
       if recipient.present?
-        payment.date_sent = DateTime.now
-        payment.sender_id = current_user.id
-        payment.status = :pending
-        if authorize payment
-          payment.save
-          format.json {
-            render json: {
-              status: 0,
-              message: "You sent a payment to #{recipient.name}",
-              payment: payment
+        begin
+          @customer = Stripe::Customer.retrieve(recipient.customer_id)
+          if @customer.sources.data.size > 0 
+            payment.date_sent = DateTime.now
+            payment.sender_id = current_user.id
+            payment.status = :pending
+            
+            if authorize payment
+              payment.save
+              format.json {
+                render json: {
+                  status: 0,
+                  message: "You sent a payment to #{recipient.name}",
+                  payment: payment
+                }
+              }
+            else
+              format.json {
+                render json: {
+                  status: 1,
+                  message: "Payment could not be made"
+                }
+              }
+            end
+          else
+            format.json {
+              render json: {
+                status: 1,
+                message: "Recipient does not have a registered card"
+              },
+              status: 402
             }
-          }
-        else
-          format.json {
-            render json: {
-              status: 1,
-              message: "Payment could not be made"
-            }
-          }
+          end
+        rescue Stripe::InvalidRequestError
         end
+        
       else
         format.json {
           render json: {

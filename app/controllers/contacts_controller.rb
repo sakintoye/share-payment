@@ -32,10 +32,11 @@ class ContactsController < ApplicationController
       else
         format.json { render json: 
           {
-            status: 0,
-            message: "Contact already exists",
-            data: member 
-          }
+            status: 1,
+            message: "Contact already exists"
+          },
+          status: 406
+
         }
       end
     end

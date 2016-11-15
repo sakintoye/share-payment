@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161108021504) do
+ActiveRecord::Schema.define(version: 20161115015652) do
 
   create_table "contacts", force: :cascade do |t|
     t.integer  "owner_id",   limit: 4
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20161108021504) do
     t.string   "nickname",               limit: 255
     t.string   "image",                  limit: 255
     t.string   "email",                  limit: 255
+    t.integer  "registration_status",    limit: 4
     t.text     "tokens",                 limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"

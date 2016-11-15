@@ -39,7 +39,7 @@ class MerchantsController < ApplicationController
 			@customer = Stripe::Customer.create(description: fullname, email: email)
 			user = User.find_by(uid: uid)
 			# user.customer_id = @customer.id
-			user.update_attributes(customer_id: @customer.id)
+			user.update_attributes(customer_id: @customer.id, registration_status: 1)
 			render json: @customer, status: 200
 	    rescue Stripe::InvalidRequestError
 	    end

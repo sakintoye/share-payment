@@ -123,7 +123,7 @@ class MerchantsController < ApplicationController
 	      :amount => params[:amount], # this number should be in cents
 	      :currency => "usd",
 	      :card => token,
-	      :destination => recipient.account_id
+	      :destination => recipient.account_id,
 	      :description => "Example Charge"
 	    )
 	  render json: charge, status: 200

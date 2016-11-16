@@ -34,8 +34,7 @@ class PaymentsController < ApplicationController
   def create
     Stripe.api_key = Rails.application.secrets.stripe_key
     respond_to do |format|
-      payment_params = params[:payment]
-      payment = Payment.new(recipient_id: params[:recipient_id], amount: params[:amount], reason: params[:reason])
+      payment = Payment.new(create_params)
       recipient = User.find_by(id: payment.recipient_id)
       if recipient.present?
         begin

@@ -39,7 +39,7 @@ class MerchantsController < ApplicationController
 			@customer = Stripe::Customer.create(description: fullname, email: email)
 			@user = User.find_by(email: email)
 			# user.customer_id = @customer.id
-			@user.update_attributes(customer_id: @customer.id, registration_status: 1)
+			@user.update_attributes(customer_id: @customer.id)
 			create_account
 			render json: @customer, status: 200
 	    rescue Stripe::InvalidRequestError
@@ -66,6 +66,8 @@ class MerchantsController < ApplicationController
 	  # Adds the token to the customer's sources
 	  begin
 	    @customer.sources.create({:source => source})
+	    user = User.find_by(customer_id: @customer.id)
+	    user.update_attributes(registration_status: 1)
 	  rescue Stripe::StripeError => e
 	    render json: "Error adding token to customer: #{e.message}".to_json, status: 402
 	    return

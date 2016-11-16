@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   require "stripe"
-  # skip_before_filter :verify_authenticity_token
+  skip_before_filter :verify_authenticity_token
   before_action :authenticate_user!
   before_action :set_payment, only: [:show, :update, :withdraw, :cancel]
   respond_to :json
@@ -34,7 +34,8 @@ class PaymentsController < ApplicationController
   def create
     Stripe.api_key = Rails.application.secrets.stripe_key
     respond_to do |format|
-      payment = Payment.new(create_params)
+
+      payment = Payment.new(:recipient_id: params[:recipient_id], amount: params[:amount], reason: params[:reason])
       recipient = User.find_by(id: payment.recipient_id)
       if recipient.present?
         begin

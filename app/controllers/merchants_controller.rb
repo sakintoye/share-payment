@@ -37,7 +37,7 @@ class MerchantsController < ApplicationController
 	    	email = params[:email]
 	    	uid = params[:uid]
 			@customer = Stripe::Customer.create(description: fullname, email: email)
-			@user = User.find_by(uid: uid)
+			@user = User.find_by(email: email)
 			# user.customer_id = @customer.id
 			@user.update_attributes(customer_id: @customer.id, registration_status: 1)
 			create_account

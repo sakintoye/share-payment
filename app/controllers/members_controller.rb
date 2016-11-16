@@ -3,7 +3,7 @@ class MembersController < ApplicationController
   respond_to :json
 
   def index
-    members = User.all.where.not(id: current_user.id).where(registration_status: 1)
+    members = User.all.where(registration_status: 1).where.not(id: current_user.id)
     respond_to do |format|
       format.json { render json:
         {

@@ -37,13 +37,27 @@ class MerchantsController < ApplicationController
 	    	email = params[:email]
 	    	uid = params[:uid]
 			@customer = Stripe::Customer.create(description: fullname, email: email)
-			user = User.find_by(uid: uid)
+			@user = User.find_by(uid: uid)
 			# user.customer_id = @customer.id
-			user.update_attributes(customer_id: @customer.id, registration_status: 1)
+			@user.update_attributes(customer_id: @customer.id, registration_status: 1)
+			create_account
 			render json: @customer, status: 200
 	    rescue Stripe::InvalidRequestError
 	    end
 	    # session[:customer_id] = @customer.id
+	end
+
+	def create_account
+		begin
+			account = Stripe::Account.create(
+			  :managed => true,
+			  :country => 'US',
+			  :email => @user.email
+			)
+			@user.update_attributes(account_id: account.id)
+		rescue Stripe::InvalidRequestError
+			
+		end
 	end
 
 	def customer_sources #post

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115015652) do
+ActiveRecord::Schema.define(version: 20161116004612) do
 
   create_table "contacts", force: :cascade do |t|
     t.integer  "owner_id",   limit: 4
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20161115015652) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "customer_id",            limit: 255
+    t.string   "account_id",             limit: 255
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

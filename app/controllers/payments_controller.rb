@@ -1,5 +1,6 @@
 class PaymentsController < ApplicationController
   require "stripe"
+  skip_before_filter :verify_authenticity_token
   before_action :authenticate_user!
   before_action :set_payment, only: [:show, :update, :withdraw, :cancel]
   respond_to :json

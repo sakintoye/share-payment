@@ -120,22 +120,22 @@ class MerchantsController < ApplicationController
 	  recipient = User.find_by(id: params[:recipient_id])
 	  if recipient.present? && recipient.account_id.present?
 	  	# Create the charge on Stripe's servers - this will charge the user's card
-	  begin
-	    charge = Stripe::Charge.create(
-	      :amount => params[:amount], # this number should be in cents
-	      :currency => "usd",
-	      :card => token,
-	      :destination => recipient.account_id,
-	      :description => "Example Charge"
-	    )
-	  render json: charge, status: 200
-	  rescue Stripe::StripeError => e
-	    render json: "Error creating charge: #{e.message}".to_json, status: 402
-	    return 
+		  begin
+		    charge = Stripe::Charge.create(
+		      :amount => params[:amount], # this number should be in cents
+		      :currency => "usd",
+		      :card => token,
+		      :destination => recipient.account_id,
+		      :description => "Example Charge"
+		    )
+		  render json: charge, status: 200
+		  rescue Stripe::StripeError => e
+		    render json: "Error creating charge: #{e.message}".to_json, status: 402
+		    return 
+		  end
+	  else
+		render json: "Recipient does not have card on file".to_json, status: 402  	
 	  end
-	  end
-	  
-
 	end
 
 	def webhook

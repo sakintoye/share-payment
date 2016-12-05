@@ -38,7 +38,7 @@ module Capstone
       :authentication => :plain,
       :user_name      => Rails.application.secrets.smtp_username,
       :password       => Rails.application.secrets.smtp_password,
-      :domain         => 'fractel.net',
+      :domain         => 'akintoye.me',
       :enable_starttls_auto => true
     }
   end
